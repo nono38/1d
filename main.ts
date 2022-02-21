@@ -21,25 +21,28 @@ control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_B, EventBusValue.MICROBIT_BUTT
 })
 control.onEvent(EventBusSource.MICROBIT_ID_IO_P15, EventBusValue.MICROBIT_PIN_EVT_FALL, function () {
     if (vs == _1d) {
+        pins.digitalWritePin(DigitalPin.P12, 1)
+        basic.pause(500)
+        pins.digitalWritePin(DigitalPin.P12, 0)
         led.unplot(vs, 0)
         game.setScore(game.score() + 1)
-        basic.pause(5000)
+        basic.pause(2000)
     }
 })
-let vs = 0
 let _1d = 0
+let vs = 0
+vs = randint(0, 4)
 pins.setPull(DigitalPin.P15, PinPullMode.PullUp)
 led.plot(2, 4)
-led.plot(2, 0)
+led.plot(vs, 0)
 _1d = 2
-vs = 2
 pins.setEvents(DigitalPin.P15, PinEventType.Edge)
 basic.forever(function () {
     if (vs < 5) {
         basic.pause(2000)
-        vs = vs + 1
+        led.unplot(vs, 0)
+        vs = randint(0, 4)
         led.plot(vs, 0)
-        led.unplot(vs - 1, 0)
     } else {
         vs = 0
         led.plot(vs, 0)
